@@ -166,7 +166,6 @@ def generate_graph():
                 adj_mat[i][j] = 0
             else:
                 adj_mat[j][i] = adj_mat[i][j]
-    print(adj_mat)
 
 def main():
     if not len(sys.argv) == 3:
