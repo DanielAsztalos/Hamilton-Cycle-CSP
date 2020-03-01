@@ -25,7 +25,8 @@ Előre leszögezett 5 csomópontból álló gráfra<br/>
   - ha tartalmaz Hamilton kört: 
     1. 52 értékadás
     2. 9 értékadás
-    3. 
+    3. 9 értékadás
   - ha nem tartalmaz Hamilton kört:
     1. 781 értékadás
     2. 54 értékadás
+    3. 25 értékadás
