@@ -104,6 +104,36 @@ def mvr_fc(sol, i, nodes):
         sol[i] = -1
     return False
 
+def ac3(sol, i, nodes):
+    global adj_mat
+    for j, node in enumerate(adj_mat[sol[i]]):
+        if adj_mat[sol[i]][j] == 1:
+            nodes[j].remove_from_domain(sol[i])
+
+    if i == N - 2:
+        for j in sol[i].domain:
+            if adj_mat[j][sol[0]] != 1:
+                nodes[sol[i]].remove_from_domain(j)
+
+def mvr_ac3(sol, i, nodes):
+    global adj_mat
+    global num_assig
+    
+    if i == N:
+        if is_solution(adj_mat, sol):
+            return True
+        else:
+            return False
+    num_assig += 1
+    var = get_interval(nodes, i, sol)
+    for n in var:
+        sol[i] = n    
+        ac3(sol, i, nodes)    
+        if mvr_fc(sol, i + 1, nodes) == True:
+            return True
+        sol[i] = -1
+    return False
+
     
 def create_domains(nodes):
     for i in range(len(adj_mat)):
@@ -118,8 +148,8 @@ adj_mat = [
     [0, 1, 0, 1, 0],
     [1, 0, 1, 1, 1],
     [0, 1, 0, 0, 1],
-    [1, 1, 0, 0, 0],
-    [0, 1, 1, 0, 0]
+    [1, 1, 0, 0, 1],
+    [0, 1, 1, 1, 0]
 ]
 
 num_assig = 0
@@ -160,6 +190,12 @@ def main():
         nodes = create_domains(nodes)
 
         mvr_fc(solution, 0, nodes)
+        print(num_assig)
+    elif strategy == 3:
+        nodes = [Node(N) for x in range(N)]
+        nodes = create_domains(nodes)
+
+        mvr_ac3(solution, 0, nodes)
         print(num_assig)
 
 
